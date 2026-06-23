@@ -212,6 +212,7 @@ const handleKeyup = (e) => {
   flex: 1;
   overflow-y: auto;
   padding: 16px;
+  padding-bottom: 12px;
 }
 
 .post-header {
@@ -336,7 +337,7 @@ const handleKeyup = (e) => {
 }
 
 .comments-section {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .comments-title {
@@ -503,6 +504,7 @@ const handleKeyup = (e) => {
   
   .detail-content {
     padding: 24px;
+    padding-bottom: 12px;
   }
   
   .avatar {

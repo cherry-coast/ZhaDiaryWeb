@@ -603,7 +603,7 @@ const selectCategory = (cat) => {
   }
   
   .form-body-scroll {
-    padding: 14px 28px 28px 28px;
+    padding: 14px 28px 2px 28px;
   }
   
   .form-title {
