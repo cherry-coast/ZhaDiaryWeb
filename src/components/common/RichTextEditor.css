@@ -1,0 +1,74 @@
+.rich-text-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e8e0de;
+  border-radius: 12px;
+  background: #fbf9f8;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.rich-text-container:focus-within {
+  background: #ffffff;
+  border-color: #ff4f68;
+  box-shadow: 0 0 0 4px rgba(255, 79, 104, 0.1);
+}
+
+.editor-toolbar {
+  background: #fff;
+  z-index: 100;
+}
+
+.editor-content {
+  flex: 1;
+  min-height: 120px;
+  overflow-y: auto;
+}
+
+/* Internal overrides for WangEditor inside our container */
+:deep(.w-e-text-container) {
+  background-color: transparent !important;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #2d211f;
+}
+
+:deep(.w-e-text-placeholder) {
+  font-style: normal;
+  color: #c4b9b5;
+  top: 14px;
+  left: 16px;
+  line-height: 1.5;
+}
+
+:deep(.w-e-text-container [data-slate-editor]) {
+  padding: 14px 48px 14px 16px;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+:deep(.w-e-text-container [data-slate-editor] > *:first-child) {
+  margin-top: 0;
+}
+
+/* Fullscreen mode styling */
+.rich-text-container.is-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  border-radius: 0;
+  border: none;
+  background: #ffffff;
+}
+
+.rich-text-container.is-fullscreen .editor-content {
+  height: calc(100vh - 42px) !important; /* Adjust based on toolbar height */
+  overflow-y: hidden;
+}
+
+.rich-text-container.is-fullscreen :deep(.w-e-text-container [data-slate-editor]) {
+  height: 100%;
+}
