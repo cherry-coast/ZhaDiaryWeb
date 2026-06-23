@@ -1,4 +1,32 @@
-<script src="../../js/views/web/Home.js"></script>
+<script setup lang="ts">
+import Header from '@/components/web/Header.vue'
+import CategorySidebar from '@/components/web/CategorySidebar.vue'
+import PostList from '@/components/common/PostList.vue'
+import type { Post, User } from '@/types'
+
+withDefaults(defineProps<{
+  totalPosts: number
+  totalComments: number
+  allCategories: string[]
+  selectedCategories: string[]
+  filteredPosts: Post[]
+  currentUser?: User | null
+  postCounts: Record<string, number>
+}>(), {
+  currentUser: null
+})
+
+defineEmits<{
+  (e: 'openPostForm'): void
+  (e: 'search', query: string): void
+  (e: 'openLogin'): void
+  (e: 'openProfile'): void
+  (e: 'logout'): void
+  (e: 'toggleCategory', categories: string[]): void
+  (e: 'toggleLike', post: Post): void
+  (e: 'viewDetail', post: Post): void
+}>()
+</script>
 
 <template>
   <div class="desktop-layout">

@@ -1,17 +1,77 @@
-<script src="../../js/components/common/UserProfileModal.js"></script>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import type { User } from '@/types'
+
+const props = withDefaults(defineProps<{
+  visible?: boolean
+  user?: User
+}>(), {
+  visible: false,
+  user: () => ({} as User)
+})
+
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'updateUser', user: User): void
+}>()
+
+const avatars = ['🍉', '🐹', '🥒', '🎭', '🦄', '🐶', '🐱', '🐼', '🦊', '🐰', '🦁', '🐸']
+const selectedAvatar = ref('')
+
+const oldPassword = ref('')
+const newPassword = ref('')
+const confirmPassword = ref('')
+
+const isSubmitting = ref(false)
+
+watch(() => props.visible, (newVal) => {
+  if (newVal && props.user) {
+    selectedAvatar.value = props.user.avatar || '🍉'
+    oldPassword.value = ''
+    newPassword.value = ''
+    confirmPassword.value = ''
+  }
+})
+
+const handleSave = () => {
+  // Basic validation if trying to change password
+  if (newPassword.value || confirmPassword.value) {
+    if (!oldPassword.value) {
+      alert('请输入原密码')
+      return
+    }
+    if (newPassword.value !== confirmPassword.value) {
+      alert('两次输入的新密码不一致')
+      return
+    }
+  }
+
+  isSubmitting.value = true
+  
+  // Mock API call to update user
+  setTimeout(() => {
+    isSubmitting.value = false
+    emit('updateUser', {
+      ...props.user,
+      avatar: selectedAvatar.value
+    })
+    emit('close')
+  }, 800)
+}
+</script>
 
 <template>
-  <div v-if="visible" class="modal-overlay" @click.self="emit('close')">
+  <div v-if="visible" class="modal-overlay" @click.self="$emit('close')">
     <div class="profile-modal animate-slide-up">
       <div class="modal-top-fixed">
-        <button class="close-btn" @click="emit('close')">×</button>
+        <button class="close-btn" @click="$emit('close')">×</button>
         
         <div class="modal-header">
           <h2 class="title">个人信息设置</h2>
           <p class="subtitle">修改你的专属吃瓜头像和密码</p>
         </div>
       </div>
-
+ 
       <div class="modal-body-scroll">
         <div class="settings-content">
           <!-- Avatar Selection -->
@@ -29,7 +89,7 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Password Change -->
           <div class="setting-section">
             <h3 class="section-title">修改密码 (选填)</h3>
@@ -55,7 +115,7 @@
                   class="premium-input"
                 />
               </div>
-
+ 
               <div class="input-group">
                 <label for="confirm-pwd">确认新密码</label>
                 <input 
@@ -69,7 +129,7 @@
             </div>
           </div>
         </div>
-
+ 
         <button 
           class="save-btn" 
           :disabled="isSubmitting"

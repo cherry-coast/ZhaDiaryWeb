@@ -1,13 +1,35 @@
-<script src="../../js/components/mobile/BottomNav.js"></script>
+<script setup lang="ts">
+import type { User } from '@/types'
+
+withDefaults(defineProps<{
+  selectedCategories?: string[]
+  totalPosts?: number
+  hasActiveFilters?: boolean
+  currentUser?: User | null
+}>(), {
+  selectedCategories: () => [],
+  totalPosts: 0,
+  hasActiveFilters: false,
+  currentUser: null
+})
+
+defineEmits<{
+  (e: 'home'): void
+  (e: 'category'): void
+  (e: 'post'): void
+  (e: 'openLogin'): void
+  (e: 'openProfile'): void
+}>()
+</script>
 
 <template>
   <nav class="bottom-nav" aria-label="移动端主导航">
-    <button class="nav-item" :class="{ active: !hasActiveFilters }" @click="emit('home')">
+    <button class="nav-item" :class="{ active: !hasActiveFilters }" @click="$emit('home')">
       <span class="nav-symbol">⌂</span>
       <span class="nav-label">首页</span>
     </button>
     
-    <button class="nav-item post-nav" aria-label="发布新瓜" @click="emit('post')">
+    <button class="nav-item post-nav" aria-label="发布新瓜" @click="$emit('post')">
       <span class="post-hit-area">
         <svg viewBox="0 0 32 32" class="nav-icon">
           <!-- Watermelon Slice (Perfectly Semicircular) -->
@@ -43,14 +65,14 @@
     <button 
       class="nav-item category-nav" 
       :class="{ active: selectedCategories.length > 0 }" 
-      @click="emit('category')"
+      @click="$emit('category')"
     >
       <img src="/种类.svg" class="nav-icon" alt="" />
       <span class="nav-label">分类</span>
       <span v-if="selectedCategories.length > 0" class="category-badge">{{ selectedCategories.length }}</span>
     </button>
     
-    <button class="nav-item profile-nav" @click="currentUser ? emit('openProfile') : emit('openLogin')">
+    <button class="nav-item profile-nav" @click="currentUser ? $emit('openProfile') : $emit('openLogin')">
       <div v-if="currentUser" class="profile-avatar">{{ currentUser.avatar }}</div>
       <svg v-else viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>

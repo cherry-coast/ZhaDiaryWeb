@@ -1,4 +1,38 @@
-<script src="../../js/views/mobile/Home.js"></script>
+<script setup lang="ts">
+import { computed } from 'vue'
+import PostList from '@/components/common/PostList.vue'
+import BottomNav from '@/components/mobile/BottomNav.vue'
+import type { Post, User } from '@/types'
+
+const props = withDefaults(defineProps<{
+  feedTitle: string
+  mobileSearchQuery: string
+  filteredPosts: Post[]
+  selectedCategories: string[]
+  totalPosts: number
+  hasActiveFilters: boolean
+  currentUser?: User | null
+}>(), {
+  currentUser: null
+})
+
+const emit = defineEmits<{
+  (e: 'update:mobileSearchQuery', val: string): void
+  (e: 'submitMobileSearch'): void
+  (e: 'toggleLike', post: Post): void
+  (e: 'viewDetail', post: Post): void
+  (e: 'resetHome'): void
+  (e: 'openCategory'): void
+  (e: 'openPostForm'): void
+  (e: 'openLogin'): void
+  (e: 'openProfile'): void
+}>()
+
+const localSearchQuery = computed({
+  get: () => props.mobileSearchQuery,
+  set: (val) => emit('update:mobileSearchQuery', val)
+})
+</script>
 
 <template>
   <div class="mobile-layout">

@@ -1,10 +1,98 @@
-<script src="../../js/components/common/LoginModal.js"></script>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import type { User } from '@/types'
+
+const props = withDefaults(defineProps<{
+  visible?: boolean
+}>(), {
+  visible: false
+})
+
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'login', user: User): void
+}>()
+
+const isLoginMode = ref(true)
+const transitionName = ref('slide-right')
+
+const identifier = ref('') // Username or Email for Login
+const password = ref('')
+const email = ref('')
+const code = ref('')
+const username = ref('')
+
+const isSubmitting = ref(false)
+const countdown = ref(0)
+let timer: any = null
+
+// Reset form when modal opens or mode changes
+const resetForm = () => {
+  identifier.value = ''
+  password.value = ''
+  email.value = ''
+  code.value = ''
+  username.value = ''
+  isSubmitting.value = false
+  if (timer) {
+    clearInterval(timer)
+    countdown.value = 0
+  }
+}
+
+watch(() => props.visible, (newVal) => {
+  if (newVal) {
+    isLoginMode.value = true
+    transitionName.value = 'slide-right'
+    resetForm()
+  }
+})
+
+watch(isLoginMode, (newVal) => {
+  transitionName.value = newVal ? 'slide-right' : 'slide-left'
+  resetForm()
+})
+
+const handleSendCode = () => {
+  if (!email.value || countdown.value > 0) return
+  
+  // Start countdown
+  countdown.value = 60
+  timer = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      clearInterval(timer)
+    }
+  }, 1000)
+}
+
+const handleSubmit = () => {
+  if (isLoginMode.value) {
+    if (!identifier.value.trim() || !password.value.trim()) return
+  } else {
+    if (!email.value.trim() || !code.value.trim() || !username.value.trim() || !password.value.trim()) return
+  }
+  
+  isSubmitting.value = true
+  
+  // Mock API call
+  setTimeout(() => {
+    isSubmitting.value = false
+    emit('login', {
+      username: isLoginMode.value ? (identifier.value.includes('@') ? identifier.value.split('@')[0] : identifier.value) : username.value,
+      avatar: '🍉', // Mock default avatar
+      isLoggedIn: true
+    })
+    emit('close')
+  }, 1000)
+}
+</script>
 
 <template>
-  <div v-if="visible" class="modal-overlay" @click.self="emit('close')">
+  <div v-if="visible" class="modal-overlay" @click.self="$emit('close')">
     <div class="login-modal animate-slide-up">
       <div class="modal-top-fixed">
-        <button class="close-btn" @click="emit('close')">×</button>
+        <button class="close-btn" @click="$emit('close')">×</button>
         
         <div class="modal-header">
           <div class="logo-circle">
@@ -13,7 +101,7 @@
           <h2 class="title">{{ isLoginMode ? '欢迎回到吃瓜日记' : '加入吃瓜大军' }}</h2>
           <p class="subtitle">{{ isLoginMode ? '登录你的账号，一起愉快吃瓜' : '注册新账号，发现更多热瓜' }}</p>
         </div>
-
+ 
         <div class="mode-toggle">
           <button 
             class="toggle-btn" 
@@ -71,7 +159,7 @@
                 </div>
               </div>
             </div>
-
+ 
             <div v-else class="form-content" key="register">
               <div class="input-group">
                 <label for="email">邮箱号</label>
@@ -87,7 +175,7 @@
                   />
                 </div>
               </div>
-
+ 
               <div class="input-group">
                 <label for="code">邮箱验证码</label>
                 <div class="code-input-wrapper">
@@ -112,7 +200,7 @@
                   </button>
                 </div>
               </div>
-
+ 
               <div class="input-group">
                 <label for="username">用户名</label>
                 <div class="input-wrapper">
@@ -144,7 +232,7 @@
               </div>
             </div>
           </transition>
-
+ 
           <button 
             type="submit" 
             class="submit-btn" 

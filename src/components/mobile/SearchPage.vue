@@ -1,9 +1,66 @@
-<script src="../../js/components/mobile/SearchPage.js"></script>
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import type { Post } from '@/types'
+
+const props = withDefaults(defineProps<{
+  posts?: Post[]
+}>(), {
+  posts: () => []
+})
+
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'viewDetail', post: Post): void
+}>()
+
+const searchQuery = ref('')
+const expandedPosts = ref<Set<number>>(new Set())
+const MAX_LENGTH = 120
+
+const searchResults = computed(() => {
+  if (!searchQuery.value.trim()) {
+    return []
+  }
+  const query = searchQuery.value.toLowerCase()
+  return props.posts.filter(post => 
+    post.content.toLowerCase().includes(query) ||
+    post.author.toLowerCase().includes(query) ||
+    (post.category && post.category.toLowerCase().includes(query))
+  )
+})
+
+const toggleExpand = (postId: number) => {
+  if (expandedPosts.value.has(postId)) {
+    expandedPosts.value.delete(postId)
+  } else {
+    expandedPosts.value.add(postId)
+  }
+}
+
+const getDisplayContent = (content: string) => {
+  if (!content) return ''
+  return content.length > MAX_LENGTH ? content.slice(0, MAX_LENGTH) : content
+}
+
+const isExpanded = (postId: number) => expandedPosts.value.has(postId)
+
+const shouldTruncate = (content: string) => content && content.length > MAX_LENGTH
+
+const handleKeyup = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') {
+    emit('close')
+  }
+}
+
+watch(() => props.posts, () => {
+  searchQuery.value = ''
+})
+</script>
 
 <template>
   <div class="search-page" @keyup="handleKeyup">
     <div class="search-header">
-      <button class="back-btn" @click="emit('close')">
+      <button class="back-btn" @click="$emit('close')">
         <svg viewBox="0 0 24 24" class="back-icon">
           <path 
             d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" 
@@ -43,13 +100,13 @@
         </div>
       </div>
       
-      <div v-else-if="searchResults.length === 0" class="empty-results">
+      <div class="empty-results" v-else-if="searchResults.length === 0">
         <div class="empty-icon">🔍</div>
         <p class="empty-text">没有找到相关的瓜</p>
         <p class="empty-hint">换个关键词试试？</p>
       </div>
       
-      <div v-else class="search-results">
+      <div class="search-results" v-else>
         <div class="results-count">找到 {{ searchResults.length }} 个瓜</div>
         <div class="post-list">
           <div 
@@ -110,7 +167,7 @@
                   class="image-item"
                   :class="{ 'single': post.images.length === 1 }"
                 >
-                  <img :src="img.base64" :alt="img.fileName" class="post-image" />
+                  <img :src="(img as any).base64" :alt="(img as any).fileName" class="post-image" />
                 </div>
               </div>
             </div>
@@ -124,7 +181,7 @@
                 <span class="action-icon">💬</span>
                 <span class="action-count">{{ post.comments.length }}</span>
               </div>
-              <button class="detail-btn" @click="emit('viewDetail', post)">
+              <button class="detail-btn" @click="$emit('viewDetail', post)">
                 <svg viewBox="0 0 24 24" class="detail-icon">
                   <path 
                     d="M12 4C6.48 4 2 8.48 2 14s4.48 10 10 10 10-4.48 10-10S17.52 4 12 4zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z" 

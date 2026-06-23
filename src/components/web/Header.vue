@@ -1,4 +1,44 @@
-<script src="../../js/components/web/Header.js"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { User } from '@/types'
+
+withDefaults(defineProps<{
+  totalPosts?: number
+  totalComments?: number
+  categories?: string[]
+  selectedCategories?: string[]
+  filteredCount?: number
+  currentUser?: User | null
+}>(), {
+  totalPosts: 0,
+  totalComments: 0,
+  categories: () => [],
+  selectedCategories: () => [],
+  filteredCount: 0,
+  currentUser: null
+})
+
+const emit = defineEmits<{
+  (e: 'openPostForm'): void
+  (e: 'search', query: string): void
+  (e: 'filterCategory'): void
+  (e: 'openLogin'): void
+  (e: 'logout'): void
+  (e: 'openProfile'): void
+}>()
+
+const searchQuery = ref('')
+
+const handleSearch = () => {
+  emit('search', searchQuery.value.trim())
+}
+
+const handleKeyup = (e: KeyboardEvent) => {
+  if (e.key === 'Enter') {
+    handleSearch()
+  }
+}
+</script>
 
 <template>
   <header class="header">
@@ -33,12 +73,12 @@
           </svg>
         </button>
       </div>
-
+ 
       <div class="user-section header-right">
         <div v-if="currentUser" class="user-profile">
-          <div class="user-avatar clickable" @click="emit('openProfile')" title="修改个人信息">{{ currentUser.avatar }}</div>
-          <span class="user-name clickable" @click="emit('openProfile')" title="修改个人信息">{{ currentUser.username }}</span>
-          <button class="logout-btn" @click="emit('logout')" title="退出登录">
+          <div class="user-avatar clickable" @click="$emit('openProfile')" title="修改个人信息">{{ currentUser.avatar }}</div>
+          <span class="user-name clickable" @click="$emit('openProfile')" title="修改个人信息">{{ currentUser.username }}</span>
+          <button class="logout-btn" @click="$emit('logout')" title="退出登录">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
               <polyline points="16 17 21 12 16 7"></polyline>
@@ -46,7 +86,7 @@
             </svg>
           </button>
         </div>
-        <button v-else class="login-trigger-btn" @click="emit('openLogin')">登录 / 注册</button>
+        <button v-else class="login-trigger-btn" @click="$emit('openLogin')">登录 / 注册</button>
       </div>
     </div>
   </header>

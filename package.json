@@ -13,8 +13,12 @@
     "vue": "^3.4.21"
   },
   "devDependencies": {
+    "@types/node": "^26.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/tsconfig": "^0.9.1",
     "sass": "^1.71.1",
-    "vite": "6.4.2"
+    "typescript": "^6.0.3",
+    "vite": "6.4.2",
+    "vue-tsc": "^3.3.5"
   }
 }

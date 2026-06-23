@@ -1,11 +1,38 @@
-<script src="../../js/components/common/PostDetail.js"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { Post } from '@/types'
+
+const props = defineProps<{
+  post: Post
+}>()
+
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'addComment', postId: number, content: string): void
+}>()
+
+const newComment = ref('')
+
+const addComment = () => {
+  if (!newComment.value.trim()) return
+  
+  emit('addComment', props.post.id, newComment.value.trim())
+  newComment.value = ''
+}
+
+const handleKeyup = (e: KeyboardEvent) => {
+  if (e.key === 'Enter') {
+    addComment()
+  }
+}
+</script>
 
 <template>
-  <div class="detail-overlay" @click.self="emit('close')">
+  <div class="detail-overlay" @click.self="$emit('close')">
     <div class="detail-modal animate-slide-up">
       <div class="detail-header">
         <h2 class="detail-title">帖子详情</h2>
-        <button class="close-btn" @click="emit('close')">
+        <button class="close-btn" @click="$emit('close')">
           <svg viewBox="0 0 24 24" class="close-icon">
             <path 
               d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" 
@@ -41,7 +68,7 @@
               class="image-item"
               :class="{ 'single': post.images.length === 1 }"
             >
-              <img :src="img.base64" :alt="img.fileName" class="post-image" />
+              <img :src="(img as any).base64" :alt="(img as any).fileName" class="post-image" />
             </div>
           </div>
         </div>

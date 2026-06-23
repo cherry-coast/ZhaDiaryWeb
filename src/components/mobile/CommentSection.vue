@@ -1,10 +1,37 @@
-<script src="../../js/components/mobile/CommentSection.js"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { Post } from '@/types'
+
+const props = defineProps<{
+  post: Post
+}>()
+
+const emit = defineEmits<{
+  (e: 'addComment', postId: number, content: string): void
+  (e: 'close'): void
+}>()
+
+const commentContent = ref('')
+const isSubmitting = ref(false)
+
+const handleSubmit = () => {
+  if (!commentContent.value.trim()) return
+  
+  isSubmitting.value = true
+  
+  setTimeout(() => {
+    emit('addComment', props.post.id, commentContent.value.trim())
+    commentContent.value = ''
+    isSubmitting.value = false
+  }, 300)
+}
+</script>
 
 <template>
-  <div class="comment-overlay" @click.self="emit('close')">
+  <div class="comment-overlay" @click.self="$emit('close')">
     <div class="comment-section animate-slide-up">
       <div class="comment-header">
-        <button class="back-btn" @click="emit('close')">
+        <button class="back-btn" @click="$emit('close')">
           <svg viewBox="0 0 24 24" class="back-icon">
             <path 
               d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" 
