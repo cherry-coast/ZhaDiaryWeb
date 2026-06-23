@@ -195,4 +195,4 @@ watch(() => props.posts, () => {
   </div>
 </template>
 
-<style scoped src="./SearchPage.css"></style>
+<style scoped src="../../css/components/mobile/SearchPage.css"></style>

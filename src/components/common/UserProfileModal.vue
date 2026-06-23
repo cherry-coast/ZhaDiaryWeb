@@ -143,4 +143,4 @@ const handleSave = () => {
   </div>
 </template>
 
-<style scoped src="./UserProfileModal.css"></style>
+<style scoped src="../../css/components/common/UserProfileModal.css"></style>

@@ -132,4 +132,4 @@ const handleKeyup = (e) => {
   </div>
 </template>
 
-<style scoped src="./PostDetail.css"></style>
+<style scoped src="../../css/components/common/PostDetail.css"></style>

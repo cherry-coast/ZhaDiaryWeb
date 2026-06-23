@@ -82,4 +82,4 @@ const emit = defineEmits(['home', 'category', 'post', 'openLogin', 'openProfile'
   </nav>
 </template>
 
-<style scoped src="./BottomNav.css"></style>
+<style scoped src="../../css/components/mobile/BottomNav.css"></style>

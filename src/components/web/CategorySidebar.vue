@@ -98,4 +98,4 @@ const toggleCategory = (cat) => {
   </aside>
 </template>
 
-<style scoped src="./CategorySidebar.css"></style>
+<style scoped src="../../css/components/web/CategorySidebar.css"></style>

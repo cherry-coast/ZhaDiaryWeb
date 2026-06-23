@@ -248,4 +248,4 @@ const handleSubmit = () => {
   </div>
 </template>
 
-<style scoped src="./LoginModal.css"></style>
+<style scoped src="../../css/components/common/LoginModal.css"></style>

@@ -173,4 +173,4 @@ const shouldTruncate = (content) => {
   </div>
 </template>
 
-<style scoped src="./PostList.css"></style>
+<style scoped src="../../css/components/common/PostList.css"></style>

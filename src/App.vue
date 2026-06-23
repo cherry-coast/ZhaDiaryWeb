@@ -351,4 +351,4 @@ const submitMobileSearch = () => {
   </div>
 </template>
 
-<style src="./App.css"></style>
+<style src="./css/App.css"></style>

@@ -93,4 +93,4 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style scoped src="./RichTextEditor.css"></style>
+<style scoped src="../../css/components/common/RichTextEditor.css"></style>

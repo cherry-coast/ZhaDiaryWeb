@@ -109,4 +109,4 @@ const handleClose = () => {
   </Transition>
 </template>
 
-<style scoped src="./CategoryModal.css"></style>
+<style scoped src="../../css/components/mobile/CategoryModal.css"></style>

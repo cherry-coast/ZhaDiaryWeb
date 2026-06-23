@@ -115,4 +115,4 @@ const handleSubmit = () => {
   </div>
 </template>
 
-<style scoped src="./CommentSection.css"></style>
+<style scoped src="../../css/components/mobile/CommentSection.css"></style>

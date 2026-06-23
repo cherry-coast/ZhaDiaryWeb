@@ -95,4 +95,4 @@ const handleKeyup = (e) => {
   </header>
 </template>
 
-<style scoped src="./Header.css"></style>
+<style scoped src="../../css/components/web/Header.css"></style>

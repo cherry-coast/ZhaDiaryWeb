@@ -198,4 +198,4 @@ const selectCategory = (cat) => {
   </div>
 </template>
 
-<style scoped src="./PostForm.css"></style>
+<style scoped src="../../css/components/common/PostForm.css"></style>
