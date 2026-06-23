@@ -154,7 +154,6 @@ const selectCategory = (cat) => {
           <button class="cancel-btn" @click="toggleFullScreen">缩小</button>
           <button 
           class="submit-btn" 
-          :disabled="(!textContentLength && images.length === 0) || isSubmitting"
           @click="handleSubmit"
         >
           <span>{{ isSubmitting ? '发布中...' : '发布瓜' }}</span>
