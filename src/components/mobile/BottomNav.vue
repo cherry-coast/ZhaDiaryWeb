@@ -1,25 +1,4 @@
-<script setup>
-defineProps({
-  selectedCategories: {
-    type: Array,
-    default: () => []
-  },
-  totalPosts: {
-    type: Number,
-    default: 0
-  },
-  hasActiveFilters: {
-    type: Boolean,
-    default: false
-  },
-  currentUser: {
-    type: Object,
-    default: null
-  }
-})
-
-const emit = defineEmits(['home', 'category', 'post', 'openLogin', 'openProfile'])
-</script>
+<script src="../../js/components/mobile/BottomNav.js"></script>
 
 <template>
   <nav class="bottom-nav" aria-label="移动端主导航">

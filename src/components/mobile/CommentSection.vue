@@ -1,30 +1,4 @@
-<script setup>
-import { ref } from 'vue'
-
-defineProps({
-  post: {
-    type: Object,
-    required: true
-  }
-})
-
-const emit = defineEmits(['addComment', 'close'])
-
-const commentContent = ref('')
-const isSubmitting = ref(false)
-
-const handleSubmit = () => {
-  if (!commentContent.value.trim()) return
-  
-  isSubmitting.value = true
-  
-  setTimeout(() => {
-    emit('addComment', post.id, commentContent.value.trim())
-    commentContent.value = ''
-    isSubmitting.value = false
-  }, 300)
-}
-</script>
+<script src="../../js/components/mobile/CommentSection.js"></script>
 
 <template>
   <div class="comment-overlay" @click.self="emit('close')">
@@ -68,8 +42,8 @@ const handleSubmit = () => {
               <button class="comment-like-btn">
                 <svg viewBox="0 0 24 24" class="like-icon">
                   <path 
-                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
-                    fill="#ccc"
+                     d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
+                     fill="#ccc"
                   />
                 </svg>
                 <span class="like-count">{{ comment.likes }}</span>

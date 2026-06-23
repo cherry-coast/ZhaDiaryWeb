@@ -1,30 +1,4 @@
-<script setup>
-import { ref } from 'vue'
-
-const props = defineProps({
-  post: {
-    type: Object,
-    required: true
-  }
-})
-
-const emit = defineEmits(['close', 'addComment'])
-
-const newComment = ref('')
-
-const addComment = () => {
-  if (!newComment.value.trim()) return
-  
-  emit('addComment', props.post.id, newComment.value.trim())
-  newComment.value = ''
-}
-
-const handleKeyup = (e) => {
-  if (e.key === 'Enter') {
-    addComment()
-  }
-}
-</script>
+<script src="../../js/components/common/PostDetail.js"></script>
 
 <template>
   <div class="detail-overlay" @click.self="emit('close')">
