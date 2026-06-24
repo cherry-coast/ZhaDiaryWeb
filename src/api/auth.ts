@@ -57,3 +57,33 @@ export function sendCode(param: SendCodeParam) {
     body: JSON.stringify(param)
   })
 }
+
+/**
+ * Upload User Avatar API
+ */
+export function uploadAvatar(file: File) {
+  const formData = new FormData()
+  formData.append('file', file)
+  return request<string>('/api/v1/user/avatar', {
+    method: 'POST',
+    body: formData
+  })
+}
+
+export interface UpdateUserInfoParam {
+  avatar?: string
+  username?: string
+  password?: string
+  email?: string
+  code?: string
+}
+
+/**
+ * Update User Info API
+ */
+export function updateUserInfo(param: UpdateUserInfoParam) {
+  return request<void>('/api/v1/user/update', {
+    method: 'POST',
+    body: JSON.stringify(param)
+  })
+}

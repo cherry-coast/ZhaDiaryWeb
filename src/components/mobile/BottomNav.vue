@@ -73,7 +73,10 @@ defineEmits<{
     </button>
     
     <button class="nav-item profile-nav" @click="currentUser ? $emit('openProfile') : $emit('openLogin')">
-      <div v-if="currentUser" class="profile-avatar">{{ currentUser.avatar }}</div>
+      <div v-if="currentUser" class="profile-avatar">
+        <img v-if="currentUser.avatar && (currentUser.avatar.startsWith('http') || currentUser.avatar.startsWith('/'))" :src="currentUser.avatar" class="profile-avatar-img" />
+        <template v-else>{{ currentUser.avatar }}</template>
+      </div>
       <svg v-else viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
         <circle cx="12" cy="7" r="4"></circle>

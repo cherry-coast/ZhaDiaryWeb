@@ -76,7 +76,10 @@ const handleKeyup = (e: KeyboardEvent) => {
  
       <div class="user-section header-right">
         <div v-if="currentUser" class="user-profile">
-          <div class="user-avatar clickable" @click="$emit('openProfile')" title="修改个人信息">{{ currentUser.avatar }}</div>
+          <div class="user-avatar clickable" @click="$emit('openProfile')" title="修改个人信息">
+            <img v-if="currentUser.avatar && (currentUser.avatar.startsWith('http') || currentUser.avatar.startsWith('/'))" :src="currentUser.avatar" class="user-avatar-img" />
+            <template v-else>{{ currentUser.avatar }}</template>
+          </div>
           <span class="user-name clickable" @click="$emit('openProfile')" title="修改个人信息">{{ currentUser.username }}</span>
           <button class="logout-btn" @click="$emit('logout')" title="退出登录">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">

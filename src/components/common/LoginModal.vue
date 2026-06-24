@@ -253,7 +253,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div v-if="visible" class="modal-overlay" @click.self="$emit('close')">
+  <div v-if="visible" class="modal-overlay">
     <div class="login-modal animate-slide-up">
       <div class="modal-top-fixed">
         <button class="close-btn" @click="$emit('close')">×</button>
